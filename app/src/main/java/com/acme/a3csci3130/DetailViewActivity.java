@@ -2,27 +2,45 @@ package com.acme.a3csci3130;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
-public class DetailViewActivity extends Activity {
+public class DetailViewActivity extends Activity implements AdapterView.OnItemSelectedListener{
 
-    private EditText nameField, emailField;
-    Contact receivedPersonInfo;
+    private EditText businessNumField, nameField, addressField;
+    private Spinner businessTypeField, provinceField;
+    Business receivedPersonInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_view);
-        receivedPersonInfo = (Contact)getIntent().getSerializableExtra("Contact");
+        receivedPersonInfo = (Business)getIntent().getSerializableExtra("Business");
 
+        businessNumField = (EditText) findViewById(R.id.businessNum);
         nameField = (EditText) findViewById(R.id.name);
-        emailField = (EditText) findViewById(R.id.email);
+        businessTypeField = (Spinner) findViewById(R.id.businessType);
+        addressField = (EditText) findViewById(R.id.address);
+        provinceField = (Spinner) findViewById(R.id.province);
+
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.businessType_arrays, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        provinceField.setAdapter(adapter1);
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.province_arrays, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        provinceField.setAdapter(adapter2);
 
         if(receivedPersonInfo != null){
+            businessNumField.setText(receivedPersonInfo.businessNum);
             nameField.setText(receivedPersonInfo.name);
-            emailField.setText(receivedPersonInfo.email);
+            businessTypeField.setSelection(receivedPersonInfo.businessType);
+            addressField.setText(receivedPersonInfo.address);
+            provinceField.setSelection(receivedPersonInfo.province);
         }
     }
 
@@ -33,5 +51,15 @@ public class DetailViewActivity extends Activity {
     public void eraseContact(View v)
     {
         //TODO: Erase contact functionality
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }
