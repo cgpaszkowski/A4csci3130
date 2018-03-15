@@ -35,13 +35,14 @@ public class CreateContactActivity extends Activity implements AdapterView.OnIte
 
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.businessType_arrays, android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        businessTypeField.setAdapter(adapter1);
         businessTypeField.setPrompt("Select Business Type");
+        businessTypeField.setAdapter(adapter1);
 
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.province_arrays, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        provinceField.setAdapter(adapter2);
         provinceField.setPrompt("Select Province");
+        provinceField.setAdapter(adapter2);
+
 
     }
 
@@ -59,7 +60,7 @@ public class CreateContactActivity extends Activity implements AdapterView.OnIte
 
         String businessID = appState.firebaseReference.push().getKey();
 
-        String businessNum = businessTypeField.getSelectedItem().toString();
+        String businessNum = businessNumField.getText().toString();
         String name = nameField.getText().toString();
         Integer businessType = businessTypeField.getSelectedItemPosition();
         String address = addressField.getText().toString();

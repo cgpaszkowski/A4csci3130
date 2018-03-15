@@ -1,6 +1,7 @@
 package com.acme.a3csci3130;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,7 +20,7 @@ public class DetailViewActivity extends Activity implements AdapterView.OnItemSe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_view);
-        receivedPersonInfo = (Business)getIntent().getSerializableExtra("Business");
+        receivedPersonInfo = (Business)getIntent().getSerializableExtra("Contact");
 
         businessNumField = (EditText) findViewById(R.id.businessNum);
         nameField = (EditText) findViewById(R.id.name);
@@ -29,7 +30,7 @@ public class DetailViewActivity extends Activity implements AdapterView.OnItemSe
 
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.businessType_arrays, android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        provinceField.setAdapter(adapter1);
+        businessTypeField.setAdapter(adapter1);
 
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.province_arrays, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -46,11 +47,18 @@ public class DetailViewActivity extends Activity implements AdapterView.OnItemSe
 
     public void updateContact(View v){
         //TODO: Update contact funcionality
+        //-----------ADD -----------------------------
+        
+        Intent intent=new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     public void eraseContact(View v)
     {
         //TODO: Erase contact functionality
+        //--------- ADD .delete()---------------
+        Intent intent=new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
