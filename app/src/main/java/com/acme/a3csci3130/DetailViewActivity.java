@@ -15,6 +15,7 @@ public class DetailViewActivity extends Activity implements AdapterView.OnItemSe
     private EditText businessNumField, nameField, addressField;
     private Spinner businessTypeField, provinceField;
     Business receivedPersonInfo;
+    private MyApplicationData appState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +48,25 @@ public class DetailViewActivity extends Activity implements AdapterView.OnItemSe
 
     public void updateContact(View v){
         //TODO: Update contact funcionality
+        String businessID = appState.firebaseReference.getKey();
+
+        String businessNum = businessNumField.getText().toString();
+        String name = nameField.getText().toString();
+        Integer businessType = businessTypeField.getSelectedItemPosition();
+        String address = addressField.getText().toString();
+        Integer province = provinceField.getSelectedItemPosition();
+
+        Business person = new Business(businessID, businessNum, name, businessType, address, province);
+
+        appState.firebaseReference.updateChildren(businessID);
         //-----------ADD -----------------------------
-        
         Intent intent=new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
     public void eraseContact(View v)
     {
+        String businessID = appState.firebaseReference.getKey();
         //TODO: Erase contact functionality
         //--------- ADD .delete()---------------
         Intent intent=new Intent(this, MainActivity.class);
