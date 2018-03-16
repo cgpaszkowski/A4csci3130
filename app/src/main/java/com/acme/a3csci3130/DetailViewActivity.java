@@ -7,22 +7,31 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class DetailViewActivity extends Activity implements AdapterView.OnItemSelectedListener{
 
+    private Button deleteBtn, updateBtn;
     private EditText businessNumField, nameField, addressField;
     private Spinner businessTypeField, provinceField;
     Business receivedPersonInfo;
     private MyApplicationData appState;
+    private DatabaseReference dbRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_view);
-        receivedPersonInfo = (Business)getIntent().getSerializableExtra("Contact");
 
+        deleteBtn = (Button) findViewById(R.id.deleteButton);
+        updateBtn = (Button) findViewById(R.id.updateInfoButton);
+
+        receivedPersonInfo = (Business)getIntent().getSerializableExtra("Contact");
         businessNumField = (EditText) findViewById(R.id.businessNum);
         nameField = (EditText) findViewById(R.id.name);
         businessTypeField = (Spinner) findViewById(R.id.businessType);
@@ -47,9 +56,7 @@ public class DetailViewActivity extends Activity implements AdapterView.OnItemSe
     }
 
     public void updateContact(View v){
-        //TODO: Update contact funcionality
-        String businessID = appState.firebaseReference.getKey();
-
+        String businessID = receivedPersonInfo.bid;
         String businessNum = businessNumField.getText().toString();
         String name = nameField.getText().toString();
         Integer businessType = businessTypeField.getSelectedItemPosition();
@@ -58,17 +65,18 @@ public class DetailViewActivity extends Activity implements AdapterView.OnItemSe
 
         Business person = new Business(businessID, businessNum, name, businessType, address, province);
 
-        appState.firebaseReference.updateChildren(businessID);
-        //-----------ADD -----------------------------
+        dbRef = FirebaseDatabase.getInstance().getReference("Business").child(businessID);
+        dbRef.setValue(person);
+
         Intent intent=new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
     public void eraseContact(View v)
     {
-        String businessID = appState.firebaseReference.getKey();
-        //TODO: Erase contact functionality
-        //--------- ADD .delete()---------------
+        String businessID = receivedPersonInfo.bid;
+        dbRef = FirebaseDatabase.getInstance().getReference("Business").child(businessID);
+        dbRef.removeValue();
         Intent intent=new Intent(this, MainActivity.class);
         startActivity(intent);
     }

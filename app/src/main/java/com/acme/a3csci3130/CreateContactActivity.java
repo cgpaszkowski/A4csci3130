@@ -28,7 +28,7 @@ public class CreateContactActivity extends Activity implements AdapterView.OnIte
 
         submitButton = (Button) findViewById(R.id.createBusinessButton);
         businessNumField = (EditText) findViewById(R.id.businessNum);
-        nameField = (EditText) findViewById(R.id.businessNum);
+        nameField = (EditText) findViewById(R.id.name);
         businessTypeField = (Spinner) findViewById(R.id.businessType);
         addressField = (EditText) findViewById(R.id.address);
         provinceField = (Spinner) findViewById(R.id.province);
